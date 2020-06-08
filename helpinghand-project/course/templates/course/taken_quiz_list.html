@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load filter_tags%}
+
+{% block content %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert"></div>
+<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+      <a class="nav-link " href="{% url 'course:course' request.path|split:'/'|getValue:'2'%}">Videos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link  " href="{% url 'course:quiz_list' request.path|split:'/'|getValue:'2' %}">Quiz</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'course:taken_quiz_list' request.path|split:'/'|getValue:'2' %}">Grades</a>
+    </li>
+  </ul>
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Subject</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for taken_quiz in taken_quizzes %}
+          <tr>
+            <td>{{ taken_quiz.quiz.name }}</td>
+            <td>{{ taken_quiz.quiz.course.get_html_badge }}</td>
+            <td>{{ taken_quiz.score }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="3">You haven't completed any quiz yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

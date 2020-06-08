@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+
+<div class="row">
+  <div class="col-md-8 col-sm-10 col-12">
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    <h2>Update your information</h2>
+    <form action="." method="POST">
+      {% csrf_token %} {{ form|crispy }}
+      {{ formset.management_form }}
+      {{ formset|crispy }}
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+  </div>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

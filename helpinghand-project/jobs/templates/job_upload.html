@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Job_Upload{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags%}
+
+<form method="POST">
+    {%csrf_token%}
+    {{jobForm|crispy}}
+    <input type="submit">
+
+</form>
+
+{% endblock %}

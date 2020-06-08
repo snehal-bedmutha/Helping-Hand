@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Job_Listing{% endblock %}
+
+{% block content %}
+
+
+<h2>Job Listings</h2>
+<table style="width:100%">
+      <tr>
+    <th>Job name</th>
+    <th>Job description</th>
+    <th>Skills Needed</th>
+          <th>Hourly Pay</th>
+
+
+  </tr>
+
+
+{% for job in jobs %}
+
+
+    <tr>
+        <td><li>{{job}}</li></td>
+        <td>{{job.job_description}}</td>
+    <td>{{job.skills_needed}}</td>
+        <td>{{job.hourly_pay}}</td>
+    </tr>
+{%endfor%}
+        </table>
+
+
+{% endblock %}

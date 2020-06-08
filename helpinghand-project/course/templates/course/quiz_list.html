@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load filter_tags%}
+
+{% block content %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert"></div>
+<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'course:course' request.path|split:'/'|getValue:'2'%}">Videos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'course:quiz_list' request.path|split:'/'|getValue:'2' %}">Quiz</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " href="{% url 'course:taken_quiz_list' request.path|split:'/'|getValue:'2' %}">Grades</a>
+    </li>
+  </ul>
+
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Subject</th>
+          <th>Length</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quizzes %}
+          <tr>
+            <td class="align-middle">{{ quiz.name }}</td>
+            <td class="align-middle">{{ quiz.course.get_html_badge }}</td>
+            <td class="align-middle">{{ quiz.questions_count }} questions</td>
+            <td class="text-right">
+              <a href="{% url 'course:take_quiz' request.path|split:'/'|getValue:'2' quiz.pk %}" class="btn btn-primary">Start quiz</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="4">No quiz matching your interests right now.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

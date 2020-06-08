@@ -1,0 +1,65 @@
+<!-- templates/course/dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+{% if user.is_student %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    {% for form in enrolled_formset %}
+    <form method="post">
+        {%csrf_token%}
+        {{form.name}}
+        <a class="btn btn-light btn-lg" href="{% url 'course:course' c_pk=form.initial.course_id %}"> Go to Course</a>
+        <input type="submit" class="btn btn-dark btn-lg" value="Unenroll">
+        <hr>
+
+    </form>
+    {% endfor %}
+
+    {% for form in available_formset %}
+    <form method="post">
+        {%csrf_token%}
+
+
+        {{form}}
+        <input type="submit" class="btn btn-dark btn-lg" value="Enroll in a Course">
+        <hr>
+
+    </form>
+    {% endfor %}
+    {% elif user.is_instructor %}
+
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+        
+        <form method="post">
+            {%csrf_token%}
+        
+        {{form}}
+        <input type="submit" class="btn btn-dark btn-lg" value="Add a Course">
+        </form>
+
+        <hr>
+        My Courses
+        <hr>
+        {%for course in enrolled_course%}
+
+        {{course.name}}  <a class="btn btn-light btn-lg" href="{% url 'course:course' c_pk=course.id %}"> Go to Course</a>
+
+        <br>
+
+        {%endfor%}
+
+    {% else %}
+
+
+
+    {% endif %}
+
+    {% endif %}
+
+
+    {% endblock %}

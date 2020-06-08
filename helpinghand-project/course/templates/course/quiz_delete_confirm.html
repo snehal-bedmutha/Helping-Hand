@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load filter_tags%}
+
+{% block content %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert"></div>
+<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+      <a class="nav-link " href="{% url 'course:course' request.path|split:'/'|getValue:'2'%}">Videos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'course:quiz_change_list' request.path|split:'/'|getValue:'2' %}">Quiz</a>
+    </li>
+  </ul>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'course:quiz_change_list' request.path|split:'/'|getValue:'2' %}">My Quizzes</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'course:quiz_change' request.path|split:'/'|getValue:'2' quiz.pk %}">{{ quiz.name }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Confirm deletion</li>
+    </ol>
+  </nav>
+  <h2 class="mb-3">Confirm deletion</h2>
+  <p class="lead">Are you sure you want to delete the quiz <strong>"{{ quiz.name }}"</strong>? There is no going back.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-lg">Yes, I'm sure</button>
+    <a href="{% url 'course:quiz_change' request.path|split:'/'|getValue:'2' quiz.pk %}" class="btn btn-outline-secondary btn-lg" role="button">Nevermind</a>
+  </form>
+{% endblock %}
